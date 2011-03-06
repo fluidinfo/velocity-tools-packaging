@@ -1,0 +1,4 @@
+- Launch FULL unit tests (the "test.view" Ant target) during build
+  need a Jetty servlet/JSP container and some more B-D.
+- Package the struts 1.3.x module
+  need Struts 1.3.x which is not yet in Debian (see Debian bug #419761)

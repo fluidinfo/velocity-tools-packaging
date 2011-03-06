@@ -1,0 +1,35 @@
+#!/usr/bin/make -f
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/ant.mk
+
+JAVA_HOME            := /usr/lib/jvm/default-java
+ANT_HOME             := /usr/share/ant
+
+DEB_JARS             := antlr commons-beanutils commons-collections3 commons-digester commons-lang commons-logging commons-validator oro servlet-api-2.5 jsp-api-2.1 velocity junit4 ant-junit dom4j
+
+DEB_ANT_BUILD_TARGET := jar.view jar.generic javadoc
+#DEB_ANT_CHECK_TARGET := test.generic
+DEB_ANT_CLEAN_TARGET := clean
+
+DEB_ANT_ARGS         := -Dskip-download=true
+
+API_DOCS             := docs/javadoc/*
+
+binary-post-install/lib$(DEB_SOURCE_PACKAGE)-java::
+	# Generic JAR
+	mh_installpoms -plib$(DEB_SOURCE_PACKAGE)-java
+	mh_installjar -plib$(DEB_SOURCE_PACKAGE)-java -l pom.xml -n$(DEB_SOURCE_PACKAGE)-generic dist/$(DEB_SOURCE_PACKAGE)-generic-$(DEB_UPSTREAM_VERSION).jar
+	# View JAR
+	dh_install -plib$(DEB_SOURCE_PACKAGE)-java dist/$(DEB_SOURCE_PACKAGE)-view-$(DEB_UPSTREAM_VERSION).jar usr/share/java
+	dh_link -plib$(DEB_SOURCE_PACKAGE)-java usr/share/java/$(DEB_SOURCE_PACKAGE)-view-$(DEB_UPSTREAM_VERSION).jar usr/share/java/$(DEB_SOURCE_PACKAGE)-view.jar
+
+clean::
+	-rm -rf debian/tmp
+
+binary-post-install/lib$(DEB_SOURCE_PACKAGE)-java-doc::
+	dh_install -plib$(DEB_SOURCE_PACKAGE)-java-doc $(API_DOCS) usr/share/doc/lib$(DEB_SOURCE_PACKAGE)-java/api
+
+# Rename content directory to velocity-tools-X.Y in orig.tar.gz
+get-orig-source:
+	uscan --force-download --rename --repack

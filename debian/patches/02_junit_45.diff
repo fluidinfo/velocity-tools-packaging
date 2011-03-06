@@ -1,0 +1,242 @@
+Description: compatibility patch for JUnit 4.5
+Author: Damien Raude-Morvan <drazzib@drazzib.com>
+Origin: vendor
+Forwarded: no
+Last-Update: 2009-07-16
+--- a/src/test/java/org/apache/velocity/tools/test/whitebox/GenericToolsTests.java
++++ b/src/test/java/org/apache/velocity/tools/test/whitebox/GenericToolsTests.java
+@@ -78,9 +78,9 @@
+         assertEquals(disp,dateTool.format(date));
+         assertEquals(disp2,dateTool.format("yyyy/MM/dd",date));
+         /* test parsing */
+-        assertEquals(2007,dateTool.getYear(disp));
+-        assertEquals(0,dateTool.getMonth(disp));
+-        assertEquals(2,dateTool.getDay(disp));
++        assertEquals(new Integer(2007), dateTool.getYear(disp));
++        assertEquals(new Integer(0), dateTool.getMonth(disp));
++        assertEquals(new Integer(2), dateTool.getDay(disp));
+     }
+ 
+     public @Test void testEscapeTool() {
+@@ -147,24 +147,24 @@
+         assertNotNull(mathTool);
+         assertEquals(1,mathTool.abs(-1));
+         assertEquals(2,mathTool.add(1,1));
+-        assertEquals(3,mathTool.ceil(2.5));
++        assertEquals(new Integer(3),mathTool.ceil(2.5));
+         assertEquals(4,mathTool.div(8,2));
+-        assertEquals(5,mathTool.floor(5.1));
++        assertEquals(new Integer(5),mathTool.floor(5.1));
+         assertEquals(6,mathTool.getAverage(new long[] {5,6,7}));
+         /* getTotal() watches the type of its first argument, so assertEquals needs a long */
+         assertEquals((long)7,mathTool.getTotal(new long[] {2,2,3}));
+-        assertEquals(8,mathTool.idiv(130,16));
++        assertEquals(new Integer(8),mathTool.idiv(130,16));
+         assertEquals(9,mathTool.max(9,-10));
+         assertEquals(10,mathTool.min(10,20));
+-        assertEquals(11,mathTool.mod(37,13));
++        assertEquals(new Integer(11),mathTool.mod(37,13));
+         assertEquals(12,mathTool.mul(3,4));
+-        assertEquals(13,mathTool.round(12.8));
+-        assertEquals(14.2,mathTool.roundTo(1,14.18));
+-        assertEquals(-5.0,mathTool.roundTo(2,-4.999));
++        assertEquals(new Integer(13),mathTool.round(12.8));
++        assertEquals(new Double(14.2),mathTool.roundTo(1,14.18));
++        assertEquals(new Double(-5.0),mathTool.roundTo(2,-4.999));
+         assertEquals(15,mathTool.sub(30,15));
+         assertEquals(16,mathTool.pow(4,2));
+-        assertEquals(17,mathTool.toInteger("17"));
+-        assertEquals(18.1,mathTool.toDouble("18.1"));
++        assertEquals(new Integer(17),mathTool.toInteger("17"));
++        assertEquals(new Double(18.1),mathTool.toDouble("18.1"));
+     }
+ 
+     public @Test void testNumberTool() {
+--- a/src/test/java/org/apache/velocity/tools/generic/DisplayToolTests.java
++++ b/src/test/java/org/apache/velocity/tools/generic/DisplayToolTests.java
+@@ -119,11 +119,11 @@
+         display.configure(conf);
+         assertEquals(";", display.getListDelimiter());
+         assertEquals(" und ", display.getListFinalDelimiter());
+-        assertEquals(5, display.getTruncateLength());
++        assertEquals((double)5, display.getTruncateLength());
+         assertEquals(">", display.getTruncateSuffix());
+         assertEquals(true, display.getTruncateAtWord());
+         assertEquals("~", display.getCellSuffix());
+-        assertEquals(4, display.getCellLength());
++        assertEquals((double)4, display.getCellLength());
+         assertEquals("n/a", display.getDefaultAlternate());
+         String[] tags = display.getAllowedTags();
+         assertNotNull(tags);
+@@ -142,14 +142,14 @@
+         assertNull(display.measure(null));
+         DisplayTool.Measurements dims = display.measure("");
+         assertNotNull(dims);
+-        assertEquals(1, dims.getHeight());
+-        assertEquals(0, dims.getWidth());
++        assertEquals((double)1, dims.getHeight());
++        assertEquals((double)0, dims.getWidth());
+         dims = display.measure("twelve chars");
+-        assertEquals(12, dims.getWidth());
+-        assertEquals(1, dims.getHeight());
++        assertEquals((double)12, dims.getWidth());
++        assertEquals((double)1, dims.getHeight());
+         dims = display.measure("one\ntwo\nthree");
+-        assertEquals(5, dims.getWidth());
+-        assertEquals(3, dims.getHeight());
++        assertEquals((double)5, dims.getWidth());
++        assertEquals((double)3, dims.getHeight());
+     }
+ 
+     public @Test void methodMessage_StringObjectVarArgs() throws Exception
+@@ -242,7 +242,7 @@
+     {
+         DisplayTool display = new DisplayTool();
+         display.setCellLength(10);
+-        assertEquals(10, display.getCellLength());
++        assertEquals((double)10, display.getCellLength());
+     }
+ 
+     public @Test void methodSetCellSuffix_String() throws Exception
+@@ -277,7 +277,7 @@
+     {
+         DisplayTool display = new DisplayTool();
+         display.setTruncateLength(5);
+-        assertEquals(5, display.getTruncateLength());
++        assertEquals((double)5, display.getTruncateLength());
+     }
+ 
+     public @Test void methodSetTruncateSuffix_String() throws Exception
+@@ -457,4 +457,4 @@
+         }
+     }
+ 
+-}
+\ No newline at end of file
++}
+--- a/src/test/java/org/apache/velocity/tools/generic/LinkToolTests.java
++++ b/src/test/java/org/apache/velocity/tools/generic/LinkToolTests.java
+@@ -248,7 +248,7 @@
+         LinkTool link = newInstance();
+         assertNull(link.getPort());
+         link = newInstance(LinkTool.PORT_KEY, 42);
+-        assertEquals(42, link.getPort());
++        assertEquals(new Integer(42), link.getPort());
+     }
+ 
+     public @Test void methodPort_Object() throws Exception
+@@ -256,15 +256,15 @@
+         LinkTool link = newInstance();
+         assertNull(link.port(null).getPort());
+         assertNull(link.port(":asd").getPort());
+-        assertEquals(1, link.port(1).getPort());
+-        assertEquals(42, link.port("42").getPort());
++        assertEquals(new Integer(1), link.port(1).getPort());
++        assertEquals(new Integer(42), link.port("42").getPort());
+     }
+ 
+     public @Test void methodSetPort_Object() throws Exception
+     {
+         LinkTool link = newInstance();
+         link.setPort(42);
+-        assertEquals(42, link.getPort());
++        assertEquals(new Integer(42), link.getPort());
+     }
+ 
+     public @Test void methodGetPath() throws Exception
+@@ -845,4 +845,4 @@
+     }
+ 
+ }
+-        
+\ No newline at end of file
++        
+--- a/src/test/java/org/apache/velocity/tools/generic/LoopToolTests.java
++++ b/src/test/java/org/apache/velocity/tools/generic/LoopToolTests.java
+@@ -323,45 +323,45 @@
+     {
+         LoopTool loop = new LoopTool();
+         Iterator i = loop.watch(ARRAY);
+-        assertEquals(0, loop.getCount());
++        assertEquals(new Integer(0), loop.getCount());
+         assertNull(loop.getIndex());
+         i.next();
+-        assertEquals(1, loop.getCount());
+-        assertEquals(0, loop.getIndex());
++        assertEquals(new Integer(1), loop.getCount());
++        assertEquals(new Integer(0), loop.getIndex());
+         i.next();
+-        assertEquals(2, loop.getCount());
+-        assertEquals(1, loop.getIndex());
++        assertEquals(new Integer(2), loop.getCount());
++        assertEquals(new Integer(1), loop.getIndex());
+         i.next();
+-        assertEquals(3, loop.getCount());
+-        assertEquals(2, loop.getIndex());
++        assertEquals(new Integer(3), loop.getCount());
++        assertEquals(new Integer(2), loop.getIndex());
+         loop.pop();
+         // test that skipped iterations are still included
+         i = loop.watch(ARRAY);
+         loop.skip(2);
+-        assertEquals(2, loop.getCount());
+-        assertEquals(1, loop.getIndex());
++        assertEquals(new Integer(2), loop.getCount());
++        assertEquals(new Integer(1), loop.getIndex());
+     }
+ 
+     public @Test void methodGetCountOrGetIndex_String() throws Exception
+     {
+         LoopTool loop = new LoopTool();
+         Iterator i = loop.watch(ARRAY, "i");
+-        assertEquals(0, loop.getCount("i"));
++        assertEquals(new Integer(0), loop.getCount("i"));
+         assertNull(loop.getIndex("i"));
+         i.next();
+-        assertEquals(1, loop.getCount("i"));
+-        assertEquals(0, loop.getIndex("i"));
++        assertEquals(new Integer(1), loop.getCount("i"));
++        assertEquals(new Integer(0), loop.getIndex("i"));
+         Iterator j = loop.watch(ARRAY, "j");
+         loop.skip(2);
+-        assertEquals(2, loop.getCount("j"));
+-        assertEquals(1, loop.getIndex("j"));
+-        assertEquals(1, loop.getCount("i"));
+-        assertEquals(0, loop.getIndex("i"));
++        assertEquals(new Integer(2), loop.getCount("j"));
++        assertEquals(new Integer(1), loop.getIndex("j"));
++        assertEquals(new Integer(1), loop.getCount("i"));
++        assertEquals(new Integer(0), loop.getIndex("i"));
+         // check short syntax too
+-        assertEquals(2, loop.get("count_j"));
+-        assertEquals(1, loop.get("index_j"));
+-        assertEquals(1, loop.get("count_i"));
+-        assertEquals(0, loop.get("index_i"));
++        assertEquals(new Integer(2), loop.get("count_j"));
++        assertEquals(new Integer(1), loop.get("index_j"));
++        assertEquals(new Integer(1), loop.get("count_i"));
++        assertEquals(new Integer(0), loop.get("index_i"));
+     }
+ 
+     public @Test void aliasMethods() throws Exception
+@@ -403,15 +403,15 @@
+     public @Test void method_getDepth() throws Exception
+     {
+         LoopTool loop = new LoopTool();
+-        assertEquals(0, loop.getDepth());
++        assertEquals((double)0, loop.getDepth());
+         loop.watch(ARRAY);
+-        assertEquals(1, loop.getDepth());
++        assertEquals((double)1, loop.getDepth());
+         loop.watch(ARRAY);
+-        assertEquals(2, loop.getDepth());
++        assertEquals((double)2, loop.getDepth());
+         loop.pop();
+-        assertEquals(1, loop.getDepth());
++        assertEquals((double)1, loop.getDepth());
+         loop.pop();
+-        assertEquals(0, loop.getDepth());
++        assertEquals((double)0, loop.getDepth());
+     }
+ 
+ }

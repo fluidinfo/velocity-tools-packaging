@@ -1,0 +1,7 @@
+VelocityStruts module
+---------------------
+This package doesn't contains the struts part (a.k.a. VelocityStruts module)
+because it need Struts 1.3.x which is not yet in Debian (see Debian bug #419761).
+For now, we only provide VelocityView (including Generic tools).
+
+-- Damien Raude-Morvan <drazzib@drazzib.com>

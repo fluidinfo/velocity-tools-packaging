@@ -1,0 +1,9 @@
+Document: libvelocity-tools-java-doc
+Title: API Javadoc for Velocity Tools
+Author: Velocity Tools developers
+Abstract: This is the API Javadoc provided by the Velocity Tools library.
+Section: Programming
+
+Format: HTML
+Index: /usr/share/doc/libvelocity-tools-java/api/index.html
+Files: /usr/share/doc/libvelocity-tools-java/api/*

@@ -1,0 +1,41 @@
+Description: Don't try to copy some JAR files into "lib" directory.
+Author: Damien Raude-Morvan <drazzib@drazzib.com>
+Origin: vendor
+Forwarded: not-needed
+Last-Update: 2011-03-06
+--- a/download.xml
++++ b/download.xml
+@@ -352,8 +352,6 @@
+     <property name="download.version" value="${jar.js.version}" />
+     <property name="download.path" value="rhino/${download.groupId}/${download.version}" />
+     <antcall target="http-test-m1-download"/>
+-    <!-- httpunit wants a file named 'js.jar' -->
+-    <copy file="${test.lib.dir}/${download.groupId}-${download.version}.jar" tofile="${test.lib.dir}/js.jar"/>
+   </target>
+ 
+   <target name="junit-download">
+--- a/examples.xml
++++ b/examples.xml
+@@ -53,13 +53,6 @@
+   </target>
+   <target name="simple-dependencies">
+     <copy todir="${lib}" file="${dist.dir}/${view.id}.jar"/>
+-    <copy todir="${lib}" file="${commons-beanutils.jar}"/>
+-    <copy todir="${lib}" file="${commons-collections.jar}"/>
+-    <copy todir="${lib}" file="${commons-digester.jar}"/>
+-    <copy todir="${lib}" file="${commons-lang.jar}"/>
+-    <copy todir="${lib}" file="${commons-logging.jar}"/>
+-    <copy todir="${lib}" file="${oro.jar}"/>
+-    <copy todir="${lib}" file="${velocity.jar}"/>
+   </target>
+ 
+   <target name="showcase-example">
+@@ -69,8 +62,6 @@
+     <antcall target="example-${target}"/>
+   </target>
+   <target name="showcase-dependencies" depends="simple-dependencies">
+-    <copy todir="${lib}" file="${dom4j.jar}"/>
+-    <copy todir="${lib}" file="${servlet.jar}"/>
+   </target>
+ 
+   <target name="struts-example">

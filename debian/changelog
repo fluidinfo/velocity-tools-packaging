@@ -1,0 +1,67 @@
+velocity-tools (2.0-1) unstable; urgency=low
+
+  * New upstream release.
+  * Bump Standards-Version to 3.9.1 (no changes needed).
+  * d/README.source: drop, useless since 3.0 (quilt) switch.
+  * d/rules: Add servlet-api-2.5 jsp-api-2.1 dom4j to DEB_JARS
+  * d/control: Build-Depends on libdom4j-java
+
+ -- Damien Raude-Morvan <drazzib@debian.org>  Sun, 06 Mar 2011 01:33:58 +0100
+
+velocity-tools (1.4-4) unstable; urgency=low
+
+  * Team Upload
+
+  [ Damien Raude-Morvan ]
+  * Bump debhelper compat to 7
+  * Use commons-collections 3.x:
+    - Build-Depends and Depends on libcommons-collection3-java
+    - Update classpath in DEB_JARS from debian/rules
+
+  [ Torsten Werner ]
+  * Let 'maintainers' start with uppercase M.
+  * Update Standards-Version: 3.8.4.
+  * Switch to source format 3.0.
+
+ -- Torsten Werner <twerner@debian.org>  Sun, 11 Apr 2010 00:20:58 +0200
+
+velocity-tools (1.4-3) unstable; urgency=low
+
+  * Set Maintainer field to Debian Java Team
+  * Add myself as Uploaders
+  * Switch to Quilt patch system:
+    - Refresh all patchs
+    - Remove B-D on dpatch, Add B-D on quilt
+    - Include patchsys-quilt.mk in debian/rules
+  * Bump Standards-Version to 3.8.3:
+    - Add a README.source to describe patch system
+  * Build-Depends on default-jdk instead of default-jdk-builddep
+    because we don't build a native GCJ package.
+  * Install api documentation to /usr/share/doc/libvelocity-tools-java/api/ 
+  * Maven POMs:
+    - Add a Build-Depends-Indep dependency on maven-repo-helper
+    - Use mh_installpoms and mh_installjar to install the POM and the jar to the
+     Maven repository
+  * Update my email address
+
+ -- Damien Raude-Morvan <drazzib@debian.org>  Fri, 25 Sep 2009 23:38:50 +0200
+
+velocity-tools (1.4-2) unstable; urgency=low
+
+  * debian/patches/02_junit_45.dpatch: compatibility patch
+    for JUnit 4.5. (Closes: #533967)
+  * debian/docs: include WHY_THREE_JARS.txt in package
+  * debian/rules: New generic.jar module activated
+    - Add "jar.generic" Ant target to DEB_ANT_BUILD_TARGET
+    - Install generic.jar file
+  * Bump Standards-Version to 3.8.2: no changes needed.
+
+ -- Damien Raude-Morvan <drazzib@drazzib.com>  Wed, 24 Jun 2009 00:25:56 +0200
+
+velocity-tools (1.4-1) unstable; urgency=low
+
+  * Initial release. (Closes: #497436)
+  * Build-Depend on default-jdk-builddep instead of java-gcj-compat-dev
+  * Include showcase and simple examples in libvelocity-tools-java-doc
+
+ -- Damien Raude-Morvan <drazzib@drazzib.com>  Mon, 16 Mar 2009 00:35:33 +0100
