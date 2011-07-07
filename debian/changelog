@@ -1,3 +1,9 @@
+velocity-tools (2.0-1~ppa1~lucid1) lucid; urgency=low
+
+  * Backport from oneiric ocelot. No source changes.
+
+ -- Esteve Fernandez <esteve@fluidinfo.com>  Thu, 07 Jul 2011 13:29:40 +0200
+
 velocity-tools (2.0-1) unstable; urgency=low
 
   * New upstream release.
